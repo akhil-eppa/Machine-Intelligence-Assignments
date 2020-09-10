@@ -20,6 +20,23 @@ Return : A list containing a list of all traversals [[],[],[]]
 NOTE : you are allowed to write other helper functions that you can call in the given fucntion
 '''
 def DFS(cost, start_point, goals):
+    visited=set()
+    stack=[start_point]
+    path=list()
+    while stack:
+        ver=stack.pop()
+        if ver not in visited:
+            visited.add(ver)
+            path.append(ver)
+            if ver in goals:
+                return path
+            for i in range(len(cost[ver])-1,0,-1):
+                
+                if cost[ver][i]>0 and (i not in visited):
+                    stack.append(i)
+                    
+    return []
+def DFS(cost, start_point, goals):
     #Add code for DFS
     return []
 def UCS(cost, heuristic, goals):
