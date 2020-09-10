@@ -19,6 +19,8 @@ Return : A list containing a list of all traversals [[],[],[]]
 
 NOTE : you are allowed to write other helper functions that you can call in the given fucntion
 '''
+
+from queue import PriorityQueue
 def DFS(cost, start_point, goals):
     visited=set()
     stack=[start_point]
@@ -34,17 +36,56 @@ def DFS(cost, start_point, goals):
                 
                 if cost[ver][i]>0 and (i not in visited):
                     stack.append(i)
-                    
-    return []
-def DFS(cost, start_point, goals):
-    #Add code for DFS
-    return []
-def UCS(cost, heuristic, goals):
+def UCS(cost, start_point, goals):
     #Add code for UCS
-    return []
+    visited = set()
+    q=PriorityQueue()
+    q.put((0, start_point, [start_point]))
+    while not q.empty(): 
+        cum_cost, curr, path = q.get()
+        #print(cum_cost)
+        #print(curr)
+        #print(path)
+        visited.add(curr)
+        if curr in goals:
+            return path
+        else:
+            children=list()
+            row_cost = cost[curr]
+            #print(row_cost)
+            for i in range(1, len(row_cost)):
+                if row_cost[i]!=-1:
+                    children.append(i)
+            for i in children:
+                if i not in visited:
+                    q.put((cum_cost+cost[curr][i], i, path+[i]))
 def A_Star(cost, heuristic, start_point, goals):
     #Add code for A_Star
-    return []
+    visited = set()
+    diction = dict()
+    q=PriorityQueue()
+    q.put((0, start_point, [start_point]))
+    while not q.empty():
+        cum_cost, curr, path = q.get()
+        #print(cum_cost)
+        #print(curr)
+        #print(path)
+        visited.add(curr)
+        if curr in goals:
+            diction[cum_cost]=path
+        else:
+            children=list()
+            row_cost=cost[curr]
+            #print(row_cost)
+            for i in range(1,len(row_cost)):
+                if row_cost[i]!=-1:
+                    children.append(i)
+            for i in children:
+                if i not in visited:
+                    q.put((cum_cost+cost[curr][i]+heuristic[curr], i, path + [i]))
+    #print(diction)
+    return diction.get(min(diction.keys()))
+
 def tri_traversal(cost, heuristic, start_point, goals):
     l = []
 
