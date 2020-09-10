@@ -19,7 +19,15 @@ Return : A list containing a list of all traversals [[],[],[]]
 
 NOTE : you are allowed to write other helper functions that you can call in the given fucntion
 '''
-
+def DFS(cost, start_point, goals):
+    #Add code for DFS
+    return []
+def UCS(cost, heuristic, goals):
+    #Add code for UCS
+    return []
+def A_Star(cost, heuristic, start_point, goals):
+    #Add code for A_Star
+    return []
 def tri_traversal(cost, heuristic, start_point, goals):
     l = []
 
@@ -27,7 +35,12 @@ def tri_traversal(cost, heuristic, start_point, goals):
     # t1 <= DFS_Traversal
     # t2 <= UCS_Traversal
     # t3 <= A_star_Traversal
-
+    t1=list()
+    t2=list()
+    t3=list()
+    t1=DFS(cost, start_point, goals)
+    t2=UCS(cost, start_point, goals)
+    t3=A_Star(cost, heuristic, start_point, goals)
     l.append(t1)
     l.append(t2)
     l.append(t3)
