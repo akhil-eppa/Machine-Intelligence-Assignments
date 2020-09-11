@@ -63,7 +63,6 @@ def UCS(cost, start_point, goals):
             children=list()
             row_cost = cost[curr]
             for i in range(1, len(row_cost)):
-                #if row_cost[i]!=-1:
                 if row_cost[i]>0:
                     children.append(i)
             for i in children:
