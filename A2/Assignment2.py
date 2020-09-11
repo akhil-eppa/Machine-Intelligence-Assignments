@@ -81,7 +81,6 @@ def A_Star(cost, heuristic, start_point, goals):
     q=PriorityQueue()
     q.put((heuristic[start_point],0,heuristic[start_point], start_point, [start_point]))
     while not q.empty():
-        print(diction)
         cum_cost, g, h, curr, path = q.get()
         visited.add(curr)
         if curr in goals:
