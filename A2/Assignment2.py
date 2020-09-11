@@ -36,6 +36,7 @@ def DFS(cost, start_point, goals):
                 
                 if cost[ver][i]>0 and (i not in visited):
                     stack.append(i)
+
 def UCS(cost, start_point, goals):
     #Add code for UCS
     visited = set()
@@ -59,6 +60,7 @@ def UCS(cost, start_point, goals):
             for i in children:
                 if i not in visited:
                     q.put((cum_cost+cost[curr][i], i, path+[i]))
+                    
 def A_Star(cost, heuristic, start_point, goals):
     #Add code for A_Star
     visited = set()
