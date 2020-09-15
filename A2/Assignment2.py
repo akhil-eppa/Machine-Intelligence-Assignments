@@ -61,7 +61,8 @@ def A_star_Traversal(cost, heuristic, start_point, goals):
         cum_cost, curr, g, h, path = q.get()
         visited.add(curr)
         if curr in goals:
-            diction[g]=path
+            #diction[g]=path
+            return path
         else:
             children=list()
             row_cost=cost[curr]
@@ -74,7 +75,7 @@ def A_star_Traversal(cost, heuristic, start_point, goals):
                     h_new=heuristic[i]
                     f_new=g_new+h_new
                     q.put((f_new, i, g_new, h_new, path + [i]))
-    return diction.get(min(diction.keys()))
+    #return diction.get(min(diction.keys()))
 
 '''
 Function tri_traversal - performs DFS, UCS and A* traversals and returns the path for each of these traversals 
