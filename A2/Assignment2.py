@@ -73,6 +73,7 @@ def A_star_Traversal(cost, heuristic, start_point, goals):
                     h_new=heuristic[i]
                     f_new=g_new+h_new
                     q.put((f_new, i, g_new, h_new, path + [i]))
+    return []
 
 '''
 Function tri_traversal - performs DFS, UCS and A* traversals and returns the path for each of these traversals 
