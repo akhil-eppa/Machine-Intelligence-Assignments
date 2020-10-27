@@ -5,6 +5,28 @@ Design of a Neural Network from scratch
 Mention hyperparameters used and describe functionality in detail in this space
 - carries 1 mark
 '''
+import numpy as np
+
+def sigmoid(x):
+    return 1/(1+np.exp(-x))
+def sigmoid_derivative(y):
+    return y * (1 - y)
+
+# np.tanh(x) will suffice for tanh activation
+def tanh_derivative(y):
+    return (1-y)*(1-y)
+
+def relu(x):
+	if x<0:
+		return 0
+	else:
+		return x
+
+def relu_derivative(y):
+	if y<0:
+		return 0
+	else:
+		return 1
 
 class NN:
 
