@@ -6,7 +6,19 @@ Mention hyperparameters used and describe functionality in detail in this space
 - carries 1 mark
 '''
 import numpy as np
-
+import pandas as pd
+def clean(x):
+    #We round mean values to appropriate number of decimal places
+    x['Age']=x['Age'].fillna(round(x['Age'].mean()))
+    x['Weight']=x['Weight'].fillna(round(x['Weight'].mean()))
+    x['Delivery phase']=x['Delivery phase'].fillna(x['Delivery phase'].mode()[0])
+    x['HB']=x['HB'].fillna(round(x['HB'].mean(),1))
+    x['IFA']=x['IFA'].fillna(x['IFA'].mode()[0])
+    x['BP']=x['BP'].fillna(round(x['BP'].mean(),3))
+    x['Education']=x['Education'].fillna(x['Education'].mode()[0])
+    x['Residence']=x['Residence'].fillna(x['Residence'].mode()[0])
+    return x
+    
 def sigmoid(x):
     return 1/(1+np.exp(-x))
 def sigmoid_derivative(y):
@@ -14,7 +26,7 @@ def sigmoid_derivative(y):
 
 # np.tanh(x) will suffice for tanh activation
 def tanh_derivative(y):
-    return (1-y)*(1-y)
+    return 1-(y*y)
 
 def relu(x):
 	if x<0:
@@ -92,3 +104,6 @@ class NN:
 		print(f"Precision : {p}")
 		print(f"Recall : {r}")
 		print(f"F1 SCORE : {f1}")
+data=pd.read_csv("LBW_Dataset.csv")
+data=clean(data)
+data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False)
