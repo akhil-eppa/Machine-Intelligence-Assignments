@@ -7,7 +7,7 @@ Mention hyperparameters used and describe functionality in detail in this space
 '''
 import numpy as np
 import pandas as pd
-def clean(x):
+def clean(x): 
     #We round mean values to appropriate number of decimal places
     x['Age']=x['Age'].fillna(round(x['Age'].mean()))
     x['Weight']=x['Weight'].fillna(round(x['Weight'].mean()))
@@ -24,7 +24,7 @@ def sigmoid(x):
 def sigmoid_derivative(y):
     return y * (1 - y)
 
-# np.tanh(x) will suffice for tanh activation
+# np.tanh(x) will suffice for tanh activation function
 def tanh_derivative(y):
     return 1-(y*y)
 
@@ -105,5 +105,5 @@ class NN:
 		print(f"Recall : {r}")
 		print(f"F1 SCORE : {f1}")
 data=pd.read_csv("LBW_Dataset.csv")
-data=clean(data)
-data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False)
+data=clean(data) #We can use pandas for cleaning
+data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False) #We are using this only for testing purpose. Need to remove when submitting final version
