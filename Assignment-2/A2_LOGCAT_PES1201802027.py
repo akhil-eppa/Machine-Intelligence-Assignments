@@ -19,3 +19,4 @@ for line in lines:
         datetime1=date+" "+time
         if ser in d:
             print(ser+","+d[ser]+","+datetime1+","+"duration(msec)")
+        #https://www.geeksforgeeks.org/python-difference-between-two-dates-in-minutes-using-datetime-timedelta-method/#:~:text=To%20find%20the%20difference%20between,difference%20between%20two%20datetime%20objects.
