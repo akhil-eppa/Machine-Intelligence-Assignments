@@ -1,22 +1,28 @@
 import re
 import datetime as dt
-f = open("sample_logcat.txt", "r")
+import pandas as pd
+import sys
+path=sys.argv[1]
+f = open(path,"r")
 lines=f.readlines()
-pat1="Starting Service .*$"
-pat2="Ending Service .*$"
+pat1="Starting Service .*$" # Regex for service starting using anchor concept
+pat2="Ending Service .*$" # Regex for service ending using anchor concept
 d={}
 for line in lines:
-    m=re.search(pat1,line)
-    if(m):
+    m=re.search(pat1,line) # Search for service start
+    if m:
         l=line.split()
         date,time,ser=l[0],l[1],l[6]
-        datetime=date+" "+time
-        d[ser]=datetime
-    m1=re.search(pat2,line)
-    if(m1):
-        l1=line.split()
-        date,time,ser=l1[0],l1[1],l1[6]
-        datetime1=date+" "+time
+        timestamp_start=date+" "+time # Joining in the same format as the output is required
+        d[ser]=timestamp_start
+    m1=re.search(pat2,line) # Search for service end
+    if m1:
+        l=line.split()
+        date,time,ser=l[0],l[1],l[6]
+        timestamp_end=date+" "+time
         if ser in d:
-            print(ser+","+d[ser]+","+datetime1+","+"duration(msec)")
-        #https://www.geeksforgeeks.org/python-difference-between-two-dates-in-minutes-using-datetime-timedelta-method/#:~:text=To%20find%20the%20difference%20between,difference%20between%20two%20datetime%20objects.
+            a=pd.to_datetime(d[ser])
+            b=pd.to_datetime(timestamp_end)
+            print(ser+","+d[ser]+","+timestamp_end+","+str((b-a).total_seconds()*1000))
+f.close()
+# Input in the directory of the files must be : python A2_LOGCAT_PES1201802027.py sample_logcat.txt
