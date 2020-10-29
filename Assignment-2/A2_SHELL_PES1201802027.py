@@ -1,7 +1,7 @@
 import re
 import sys
 
-path=sys.argv[1]
+path="sample_shell.txt"
 f = open(path,"r",encoding="UTF8")
 lines=f.readlines()
 for line in lines:
