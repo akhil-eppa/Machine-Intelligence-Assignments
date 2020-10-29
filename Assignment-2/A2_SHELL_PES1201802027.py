@@ -9,6 +9,7 @@ for line in lines:
 pat_if="^if.*"
 pat_fi="^fi$"
 start_if=0
+l=[]
 for line in lines:
     line=line.strip()
     if(re.search(pat_if,line)):
@@ -19,7 +20,9 @@ for line in lines:
         start_if-=1
     elif(start_if!=0):
         line=""
-    print(line) 
+    if line!="":
+        l.append(line)
+print("\n".join(l))
 
 
 #pat_if="^if"
