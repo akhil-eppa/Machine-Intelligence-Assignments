@@ -7,7 +7,7 @@ Mention hyperparameters used and describe functionality in detail in this space
 '''
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split #Allowed for splitting dataset
 def clean(x): 
     #We round mean values to appropriate number of decimal places
     x['Age']=x['Age'].fillna(round(x['Age'].mean()))
@@ -77,13 +77,13 @@ class NN:
         yhat is a list of the predicted value for df X
         """
         return yhat
-    def __init__(self,X,Y):
+    """def __init__(self,X,Y):
         self.input = X
         self.weights1 = np.random.rand(self.input.shape[1],4)#We have 4 nodes in first hidden layer
         self.weights2 = np.random.rand(4,4)#Second hidden layer also has 4 nodes
-        self.weights3 = np.random.rand(4,1)#From second hidden layer to output layer
+        self.weights3 = np.random.rand(4,1)#From second hidden layer to output layer #Defined at the beginning of the class
         self.y = Y
-        self.output = np.zeros(Y.shape)
+        self.output = np.zeros(Y.shape) """
 
     def CM(y_test,y_test_obs):
         '''
@@ -127,9 +127,9 @@ class NN:
         print(f"Precision : {p}")
         print(f"Recall : {r}")
         print(f"F1 SCORE : {f1}")
-data=pd.read_csv("LBW_Dataset.csv")
+data=pd.read_csv("LBW_Dataset.csv") 
 data=clean(data) #We can use pandas for cleaning
 #data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False) #We are using this only for testing purpose. Need to remove when submitting final version
-X=data.iloc[:,:-1]
-Y=data.iloc[:,-1]
+X=data.iloc[:,:-1] #All columns except target column which will be Y i.e predicted
+Y=data.iloc[:,-1] 
 X_train, X_test, Y_train, Y_test= train_test_split(X, Y, test_size=0.3, random_state=0)
