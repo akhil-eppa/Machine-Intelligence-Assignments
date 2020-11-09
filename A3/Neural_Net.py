@@ -61,8 +61,12 @@ class NN:
     
     #Backward Propogation
     def backprop(self):
-        return 1
-        #Need to fill
+	# application of the chain rule to find derivative of the loss function with respect to weights2 and weights1
+        d_weights3 = np.dot(self.layer2.T, (2*(self.y - self.output) * sigmoid_derivative(self.output)))
+        d_weights2 = np.dot(self.layer1.T,  (np.dot(2*(self.y - self.output) * sigmoid_derivative(self.output), self.weights3.T) * sigmoid_derivative(self.layer2)))
+        d_weights1 = np.dot(self.input.T, (np.dot(np.dot(2*(self.y - self.output) * sigmoid_derivative(self.output), self.weights3.T) * sigmoid_derivative(self.layer2)),self.weights2.T))
+        
+       
 	
     def fit(self,X,Y):
         return 1
@@ -77,13 +81,7 @@ class NN:
         yhat is a list of the predicted value for df X
         """
         return yhat
-    def __init__(self,X,Y):
-        self.input = X
-        self.weights1 = np.random.rand(self.input.shape[1],4)#We have 4 nodes in first hidden layer
-        self.weights2 = np.random.rand(4,4)#Second hidden layer also has 4 nodes
-        self.weights3 = np.random.rand(4,1)#From second hidden layer to output layer
-        self.y = Y
-        self.output = np.zeros(Y.shape)
+
 
     def CM(y_test,y_test_obs):
         '''
