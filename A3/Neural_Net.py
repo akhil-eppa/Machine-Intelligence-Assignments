@@ -67,7 +67,6 @@ class NN:
         d_weights1 = np.dot(self.input.T, (np.dot(np.dot(2*(self.y - self.output) * sigmoid_derivative(self.output), self.weights3.T) * sigmoid_derivative(self.layer2)),self.weights2.T))
         
        
-	
     def fit(self,X,Y):
         return 1
         '''
