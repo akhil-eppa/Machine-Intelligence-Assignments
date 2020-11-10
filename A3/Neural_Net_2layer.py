@@ -45,8 +45,8 @@ class NN:
     def __init__(self,X,Y):
         self.input = X
         self.weights1 = np.random.rand(self.input.shape[1],4)#We have 4 nodes in first hidden layer
-        self.weights2 = np.random.rand(4,4)#Second hidden layer also has 4 nodes
-        self.weights3 = np.random.rand(4,1)#From second hidden layer to output layer
+        self.weights2 = np.random.rand(4,1)#Second hidden layer also has 4 nodes
+        #self.weights3 = np.random.rand(4,1)#From second hidden layer to output layer
         self.y = Y
         self.output = np.zeros(Y.shape)
     ''' X and Y are dataframes '''
@@ -56,31 +56,39 @@ class NN:
     def feedforward(self):
         self.layer1=sigmoid(np.dot(self.input, self.weights1))
         self.layer2=sigmoid(np.dot(self.layer1, self.weights2))
-        self.layer3=sigmoid(np.dot(self.layer2, self.weights3))
-        return self.layer3
+        #self.layer3=sigmoid(np.dot(self.layer2, self.weights3))
+        return self.layer2
     
     #Backward Propogation
     def backprop(self):
 	# application of the chain rule to find derivative of the loss function with respect to weights2 and weights1
+        d_weights2 = np.dot(self.layer1.T, (self.y -self.output)*sigmoid_derivative(self.output))
+        d_weights1 = np.dot(self.input.T, np.dot((self.y -self.output)*sigmoid_derivative(self.output), self.weights2.T)*sigmoid_derivative(self.layer1))
+    
+        self.weights1 += d_weights1
+        self.weights2 += d_weights2
+        '''
         d_weights3 = np.dot(self.layer2.T, (2*(self.y - self.output) * sigmoid_derivative(self.output)))
         d_weights2 = np.dot(self.layer1.T,  (np.dot(2*(self.y - self.output) * sigmoid_derivative(self.output), self.weights3.T) * sigmoid_derivative(self.layer2)))
-        d_weights1 = np.dot(self.input.T, (np.dot((np.dot(2*(self.y - self.output) * sigmoid_derivative(self.output), self.weights3.T) * sigmoid_derivative(self.layer2)),self.weights2.T)))
+        d_weights1 = np.dot(self.input.T, (np.dot(np.dot(2*(self.y - self.output) * sigmoid_derivative(self.output), self.weights3.T) * sigmoid_derivative(self.layer2)),self.weights2.T))
         self.weights1+=d_weights1
         self.weights2+=d_weights2
         self.weights3+=d_weights3
-       
+        '''
     def train(self,X,Y):
         self.output=self.feedforward()
         self.backprop()
     def fit(self,X,Y):
-        for i in range(1500):
+        for i in range(1000):
             self.train(X,Y)
         '''
         Function that trains the neural network by taking x_train and y_train samples as input
         '''
 	
     def predict(self,X):
+        self.input=X
         yhat=self.feedforward()
+        
         """
         The predict function performs a simple feed forward of weights
         and outputs yhat values 
@@ -139,11 +147,16 @@ class NN:
         print(f"F1 SCORE : {f1}")
 data=pd.read_csv("LBW_Dataset.csv") 
 data=clean(data) #We can use pandas for cleaning
-#data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False) #We are using this only for testing purpose. Need to remove when submitting final version
+data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False) #We are using this only for testing purpose. Need to remove when submitting final version
+data=pd.read_csv("LBW_Dataset_Cleaned.csv")
 X=data.iloc[:,:-1] #All columns except target column which will be Y i.e predicted
 Y=data.iloc[:,-1] 
 X_train, X_test, Y_train, Y_test= train_test_split(X, Y, test_size=0.3, random_state=0)
+#print(X_train.shape)
 Y_train=Y_train.values.reshape(Y_train.shape[0],1)
 Y_test=Y_test.values.reshape(Y_test.shape[0],1)
+
 Neural_Network=NN(X_train,Y_train)
 Neural_Network.fit(X_train,Y_train)
+temp_out=Neural_Network.feedforward()
+out=Neural_Network.predict(X_test)
