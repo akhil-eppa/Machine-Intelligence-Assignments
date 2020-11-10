@@ -45,9 +45,13 @@ def relu_derivative(y):
 
 class NN:
     def __init__(self,X,Y):
+        #n_x=9
+        #n_h=4
+        #n_y=1
+        np.random.seed(2) 
         self.input = X
-        self.learning_rate=1
-        self.weights1 = np.random.randn(4,self.input.shape[1])*0.01#We have 4 nodes in first hidden layer
+        self.learning_rate=0.05
+        self.weights1 = np.random.randn(4,self.input.shape[1])*0.01#We have 4 nodes in first hidden layer, 4X9
         self.weights2 = np.random.randn(Y.shape[1],4)*0.01#Second hidden layer also has 4 nodes
         #self.weights3 = np.random.rand(4,1)#From second hidden layer to output layer
         self.bias1=np.zeros((4,1))
@@ -63,14 +67,14 @@ class NN:
        
     #Forward Propogation
     def feedforward(self):
-        W1 = self.parameters["W1"]
-        b1 = self.parameters["b1"]
-        W2 = self.parameters["W2"]
-        b2 = self.parameters["b2"]
-        Z1 = np.dot(W1,self.input)+b1
-        A1 = sigmoid(Z1)
-        Z2 = np.dot(W2,A1)+b2
-        A2 = sigmoid(Z2)
+        W1 = self.parameters["W1"]#4X9
+        b1 = self.parameters["b1"]#4X1
+        W2 = self.parameters["W2"]#1X4
+        b2 = self.parameters["b2"]#1X1
+        Z1 = np.dot(W1,self.input.T)+b1#4X67
+        A1 = np.tanh(Z1)#4X67
+        Z2 = np.dot(W2,A1)+b2#1X67
+        A2 = sigmoid(Z2)#1X67
         self.cache={"Z1":Z1,"A1":A1,"Z2":Z2,"A2":A2}
         #self.layer1=sigmoid(np.dot(self.input, self.weights1))
         #self.layer2=sigmoid(np.dot(self.layer1, self.weights2))
@@ -80,18 +84,18 @@ class NN:
     #Backward Propogation
     def backprop(self):
 	# application of the chain rule to find derivative of the loss function with respect to weights2 and weights1
-        m=self.input.shape[1]
+        m=self.input.shape[0]
         W1=self.parameters["W1"]
         W2=self.parameters["W2"]
         b1=self.parameters["b1"]
         b2=self.parameters["b2"]
         A1=self.cache["A1"]
         A2=self.cache["A2"]
-        dZ2=A2-self.y
-        dW2=(1/m)*(np.dot(dZ2,A1.T))
+        dZ2=A2-self.y.T#1X67
+        dW2=(1/m)*(np.dot(dZ2,A1.T))#1X4
         db2 = (1/m)*np.sum(dZ2,axis=1,keepdims=True)
-        dZ1 = np.dot(W2.T,dZ2)*(1-np.power(A1,2))
-        dW1 = (1/m)*(np.dot(dZ1,self.input.T))
+        dZ1 = np.dot(W2.T,dZ2)*(1-np.power(A1,2))#4X67
+        dW1 = (1/m)*(np.dot(dZ1,self.input))
         db1 = (1/m)*np.sum(dZ1,axis=1,keepdims=True)
         W1 = W1-(self.learning_rate*dW1)
         b1 = b1-(self.learning_rate*db1)
@@ -115,16 +119,22 @@ class NN:
         self.output=self.feedforward()
         self.backprop()
     def fit(self,X,Y):
-        for i in range(200):
+        for i in range(100):
             self.train(X,Y)
         '''
         Function that trains the neural network by taking x_train and y_train samples as input
         '''
 	
     def predict(self,X):
-        self.input=X
-        yhat=self.feedforward()
-        
+        W1 = self.parameters["W1"]#4X9
+        b1 = self.parameters["b1"]#4X1
+        W2 = self.parameters["W2"]#1X4
+        b2 = self.parameters["b2"]#1X1
+        Z1 = np.dot(W1,X.T)+b1#4X67
+        A1 = np.tanh(Z1)#4X67
+        Z2 = np.dot(W2,A1)+b2#1X67
+        A2 = sigmoid(Z2)#1X67
+        yhat=A2.T
         """
         The predict function performs a simple feed forward of weights
         and outputs yhat values 
@@ -194,7 +204,9 @@ Y_test=Y_test.values.reshape(Y_test.shape[0],1)
 
 Neural_Network=NN(X_train,Y_train)
 Neural_Network.fit(X_train,Y_train)
-temp_out=Neural_Network.feedforward()
-for i in temp_out:
-    print(i)
+#temp_out=Neural_Network.feedforward()
+out=Neural_Network.predict(X_test)
+#for i in temp_out:
+#print(i)
 #out=Neural_Network.predict(X_test)
+NN.CM(Y_test,out)
