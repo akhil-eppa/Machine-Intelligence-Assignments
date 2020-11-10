@@ -80,9 +80,6 @@ class NN:
         yhat is a list of the predicted value for df X
         """
         return yhat
-<<<<<<< HEAD
-
-=======
     """def __init__(self,X,Y):
         self.input = X
         self.weights1 = np.random.rand(self.input.shape[1],4)#We have 4 nodes in first hidden layer
@@ -90,7 +87,6 @@ class NN:
         self.weights3 = np.random.rand(4,1)#From second hidden layer to output layer #Defined at the beginning of the class
         self.y = Y
         self.output = np.zeros(Y.shape) """
->>>>>>> 528e37146203ae8c6dac5c94c3ca309f100360d0
 
     def CM(y_test,y_test_obs):
         '''
