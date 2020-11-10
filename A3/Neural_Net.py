@@ -65,15 +65,22 @@ class NN:
         d_weights3 = np.dot(self.layer2.T, (2*(self.y - self.output) * sigmoid_derivative(self.output)))
         d_weights2 = np.dot(self.layer1.T,  (np.dot(2*(self.y - self.output) * sigmoid_derivative(self.output), self.weights3.T) * sigmoid_derivative(self.layer2)))
         d_weights1 = np.dot(self.input.T, (np.dot(np.dot(2*(self.y - self.output) * sigmoid_derivative(self.output), self.weights3.T) * sigmoid_derivative(self.layer2)),self.weights2.T))
-        
+        self.weights1+=d_weights1
+        self.weights2+=d_weights2
+        self.weights3+=d_weights3
        
+    def train(self,X,Y):
+        self.output=self.feedforward()
+        self.backprop()
     def fit(self,X,Y):
-        return 1
+        for i in range(1500):
+            self.train(X,Y)
         '''
         Function that trains the neural network by taking x_train and y_train samples as input
         '''
 	
     def predict(self,X):
+        yhat=self.feedforward()
         """
         The predict function performs a simple feed forward of weights
         and outputs yhat values 
@@ -136,3 +143,5 @@ data=clean(data) #We can use pandas for cleaning
 X=data.iloc[:,:-1] #All columns except target column which will be Y i.e predicted
 Y=data.iloc[:,-1] 
 X_train, X_test, Y_train, Y_test= train_test_split(X, Y, test_size=0.3, random_state=0)
+Neural_Network=NN(X_train,Y_train)
+Neural_Network.fit(X_train,Y_train)
