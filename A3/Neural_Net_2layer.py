@@ -44,17 +44,17 @@ def relu_derivative(y):
 class NN:
     def __init__(self,X,Y):
         self.input = X
-        self.weights1 = np.random.rand(self.input.shape[1],4)#We have 4 nodes in first hidden layer
-        self.weights2 = np.random.rand(4,1)#Second hidden layer also has 4 nodes
+        self.weights1 = np.random.rand(self.input.shape[1],4) #Since we have 4 nodes in first hidden layer it will return a 9*4(i.e 3d) array with random weights
+        self.weights2 = np.random.rand(4,1) #Second hidden layer also has 4 nodes and it is the last hidden layer in this case
         #self.weights3 = np.random.rand(4,1)#From second hidden layer to output layer
         self.y = Y
-        self.output = np.zeros(Y.shape)
+        self.output = np.zeros(Y.shape) #Initialisation
     ''' X and Y are dataframes '''
 
        
     #Forward Propogation
     def feedforward(self):
-        self.layer1=sigmoid(np.dot(self.input, self.weights1))
+        self.layer1=sigmoid(np.dot(self.input, self.weights1)) #Returns the dot product of the two arrays
         self.layer2=sigmoid(np.dot(self.layer1, self.weights2))
         #self.layer3=sigmoid(np.dot(self.layer2, self.weights3))
         return self.layer2
@@ -79,7 +79,7 @@ class NN:
         self.output=self.feedforward()
         self.backprop()
     def fit(self,X,Y):
-        for i in range(1000):
+        for i in range(1000): #Why 1000? and not just len?
             self.train(X,Y)
         '''
         Function that trains the neural network by taking x_train and y_train samples as input
@@ -103,7 +103,7 @@ class NN:
         self.y = Y
         self.output = np.zeros(Y.shape) """
 
-    def CM(y_test,y_test_obs):
+    def CM(self,y_test,y_test_obs):
         '''
         Prints confusion matrix 
         y_test is list of y values in the test dataset
@@ -148,15 +148,17 @@ class NN:
 data=pd.read_csv("LBW_Dataset.csv") 
 data=clean(data) #We can use pandas for cleaning
 data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False) #We are using this only for testing purpose. Need to remove when submitting final version
-data=pd.read_csv("LBW_Dataset_Cleaned.csv")
-X=data.iloc[:,:-1] #All columns except target column which will be Y i.e predicted
-Y=data.iloc[:,-1] 
-X_train, X_test, Y_train, Y_test= train_test_split(X, Y, test_size=0.3, random_state=0)
+data=pd.read_csv("LBW_Dataset_Cleaned.csv") # Subsequently need to remove this as well
+X=data.iloc[:,:-1] # All columns except target column which will be Y i.e predicted
+                   # The first : takes all rows, the second : after the , takes all columns upto(excluding) column -1 which is the last column
+Y=data.iloc[:,-1]  # All rows and only the last column
+X_train, X_test, Y_train, Y_test= train_test_split(X, Y, test_size=0.3, random_state=0) #Method allowed as it is for splitting dataset0
 #print(X_train.shape)
-Y_train=Y_train.values.reshape(Y_train.shape[0],1)
-Y_test=Y_test.values.reshape(Y_test.shape[0],1)
+Y_train=Y_train.values.reshape(Y_train.shape[0],1) #Reshape it as a column vector
+Y_test=Y_test.values.reshape(Y_test.shape[0],1) #Reshape it as a column vector
 
-Neural_Network=NN(X_train,Y_train)
+Neural_Network=NN(X_train,Y_train) #Initialisation Step
 Neural_Network.fit(X_train,Y_train)
 temp_out=Neural_Network.feedforward()
 out=Neural_Network.predict(X_test)
+NN.CM(Y_test,out)

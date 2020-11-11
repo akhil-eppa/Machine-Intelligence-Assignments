@@ -51,7 +51,12 @@ class NN:
         np.random.seed(2) 
         self.input = X
         self.learning_rate=0.05
-        self.weights1 = np.random.randn(4,self.input.shape[1])*0.01#We have 4 nodes in first hidden layer, 4X9
+        self.weights1 = np.random.randn(4,self.input.shape[1])*0.01#We have 4 nodes in first hidden layer, 4X9 
+        # As a thumb rule, the weight matrices must have the follwoing dimensions:
+        # The number of rows must be equal to the number of neurons in the current layer.The number of columns must be equal to the number of neurons in previous layer
+        # As a thumb rule, the bias matrices must have the follwoing dimensions:
+        # The number of rows must be equal to the number of neurons in the current layer and it must be a column vector
+        # The same rule applies for back propagation as well for dW and dB
         self.weights2 = np.random.randn(Y.shape[1],4)*0.01#Second hidden layer also has 4 nodes
         #self.weights3 = np.random.rand(4,1)#From second hidden layer to output layer
         self.bias1=np.zeros((4,1))
@@ -149,7 +154,7 @@ class NN:
         self.y = Y
         self.output = np.zeros(Y.shape) """
 
-    def CM(y_test,y_test_obs):
+    def CM(self,y_test,y_test_obs):
         '''
         Prints confusion matrix 
         y_test is list of y values in the test dataset
