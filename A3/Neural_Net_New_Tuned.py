@@ -19,6 +19,10 @@ def clean(x):
     x['BP']=x['BP'].fillna(round(x['BP'].mean(),3))
     x['Education']=x['Education'].fillna(x['Education'].mode()[0])
     x['Residence']=x['Residence'].fillna(x['Residence'].mode()[0])
+    x['Age']=(x['Age']-x['Age'].min())/(x['Age'].max()-x['Age'].min())*10
+    x['Weight']=(x['Weight']-x['Weight'].min())/(x['Weight'].max()-x['Weight'].min())*10
+    x['HB']=(x['HB']-x['HB'].min())/(x['HB'].max()-x['HB'].min())*10
+    x['BP']=(x['BP']-x['BP'].min())/(x['BP'].max()-x['BP'].min())*10
     return x
     
 def sigmoid(x):
@@ -49,9 +53,9 @@ class NN:
         #n_h=4
         #n_y=1
         np.random.seed(2) #random seed 2
-        self.h_size=8 #layers 8
+        self.h_size=4 #layers 8 , layers 4
         self.input = X
-        self.learning_rate=0.05 #learning rate is 0.05
+        self.learning_rate=0.08 #learning rate is 0.05, 0.08
         self.weights1 = np.random.randn(self.h_size,self.input.shape[1])*0.01#We have 4 nodes in first hidden layer, 4X9 
         # As a thumb rule, the weight matrices must have the follwoing dimensions:
         # The number of rows must be equal to the number of neurons in the current layer.The number of columns must be equal to the number of neurons in previous layer
@@ -110,7 +114,7 @@ class NN:
         self.output=self.feedforward()
         self.backprop()
     def fit(self,X,Y):
-        for i in range(2000):#epochs 2000
+        for i in range(3500):#epochs 2000 epochs 3500
             self.train(X,Y)
         '''
         Function that trains the neural network by taking x_train and y_train samples as input
@@ -133,7 +137,7 @@ class NN:
         """
         return yhat
 
-    def CM(self,y_test,y_test_obs):
+    def CM(y_test,y_test_obs):
         '''
         Prints confusion matrix 
         y_test is list of y values in the test dataset
@@ -175,19 +179,19 @@ class NN:
         print(f"Precision : {p}")
         print(f"Recall : {r}")
         print(f"F1 SCORE : {f1}")
+    def accuracy(y_test,y_test_obs):
+        incorrect=0
+        for i in range(len(y_test)):
+            if y_test[i]!=y_test_obs[i]:
+                incorrect+=1
+        return ((len(y_test)-incorrect)/len(y_test)*100)
 data=pd.read_csv("LBW_Dataset.csv") 
 data=clean(data).iloc[:,1:] #We can use pandas for cleaning
-#print(data)
-#data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False) #We are using this only for testing purpose. Need to remove when submitting final version
-#data=pd.read_csv("LBW_Dataset_Cleaned.csv")
+
 X=data.iloc[:,:-1] #All columns except target column which will be Y i.e predicted
 Y=data.iloc[:,-1] 
-'''
-for i in [1,4,6]:
-    data.iloc[1:,i]=(data.iloc[1:i]-min(data.iloc[1:i]))/max(data.iloc[1:i])
-'''
-X_train, X_test, Y_train, Y_test= train_test_split(X, Y, test_size=0.3, random_state=0)#random state 0
-#print(X_train.shape)
+
+X_train, X_test, Y_train, Y_test= train_test_split(X, Y, test_size=0.3, random_state=1)#random state 0,random state 1
 Y_train=Y_train.values.reshape(Y_train.shape[0],1)
 Y_test=Y_test.values.reshape(Y_test.shape[0],1)
 
@@ -195,5 +199,10 @@ Neural_Network=NN(X_train,Y_train)
 Neural_Network.fit(X_train,Y_train)
 out_train=Neural_Network.predict(X_train)
 out=Neural_Network.predict(X_test)
-Neural_Network.CM(Y_train,out_train)
-Neural_Network.CM(Y_test,out)
+NN.CM(Y_train,out_train)
+NN.CM(Y_test,out)
+train_acc=NN.accuracy(Y_train,out_train)
+test_acc=NN.accuracy(Y_test,out)
+
+print("Training Accuracy= ",train_acc)
+print("Testing Accuracy= ",test_acc)
