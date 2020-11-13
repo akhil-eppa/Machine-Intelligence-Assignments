@@ -48,10 +48,10 @@ class NN:
         #n_x=9
         #n_h=4
         #n_y=1
-        np.random.seed(2) 
+        np.random.seed(2) #Pesudo-random
         self.input = X
         self.learning_rate=0.05
-        self.weights1 = np.random.randn(4,self.input.shape[1])*0.01#We have 4 nodes in first hidden layer, 4X9 
+        self.weights1 = np.random.randn(4,self.input.shape[1])*0.01#We have 4 nodes in first hidden layer, 4X9 Multiplying by 0.01 to convert into decimals
         # As a thumb rule, the weight matrices must have the follwoing dimensions:
         # The number of rows must be equal to the number of neurons in the current layer.The number of columns must be equal to the number of neurons in previous layer
         # As a thumb rule, the bias matrices must have the follwoing dimensions:
@@ -89,7 +89,7 @@ class NN:
     #Backward Propogation
     def backprop(self):
 	# application of the chain rule to find derivative of the loss function with respect to weights2 and weights1
-        m=self.input.shape[0]
+        m=self.input.shape[0] # Number of rows i.e 67
         W1=self.parameters["W1"]
         W2=self.parameters["W2"]
         b1=self.parameters["b1"]
@@ -124,7 +124,7 @@ class NN:
         self.output=self.feedforward()
         self.backprop()
     def fit(self,X,Y):
-        for i in range(100):
+        for i in range(100): # 100 times forward and backward propagation will take place
             self.train(X,Y)
         '''
         Function that trains the neural network by taking x_train and y_train samples as input
@@ -198,8 +198,8 @@ class NN:
         print(f"F1 SCORE : {f1}")
 data=pd.read_csv("LBW_Dataset.csv") 
 data=clean(data) #We can use pandas for cleaning
-data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False) #We are using this only for testing purpose. Need to remove when submitting final version
-data=pd.read_csv("LBW_Dataset_Cleaned.csv")
+#data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False) #We are using this only for testing purpose. Need to remove when submitting final version
+#data=pd.read_csv("LBW_Dataset_Cleaned.csv")
 X=data.iloc[:,:-1] #All columns except target column which will be Y i.e predicted
 Y=data.iloc[:,-1] 
 X_train, X_test, Y_train, Y_test= train_test_split(X, Y, test_size=0.3, random_state=0)
