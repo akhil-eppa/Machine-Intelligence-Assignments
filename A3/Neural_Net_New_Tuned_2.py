@@ -93,6 +93,12 @@ class NN:
         self.parameters = {"W1": self.weights1,"b1": self.bias1,"W2": self.weights2,"b2": self.bias2}
 
        
+    def get_cost(A2,Y):
+        m=Y.shape[1]
+        logprobs=np.multiply(np.log(A2),Y) + np.multiply(np.log(1-A2),(1-Y))
+        cost= -np.sum(logprobs)
+        cost=float(np.squeeze(cost))/m
+        return cost
     #Forward Propogation
     def feedforward(self):
         '''
