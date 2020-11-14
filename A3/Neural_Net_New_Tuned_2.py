@@ -94,7 +94,7 @@ class NN:
 
        
     def get_cost(A2,Y):
-        m=Y.shape[1]
+        m=Y.shape[0]
         logprobs=np.multiply(np.log(A2),Y) + np.multiply(np.log(1-A2),(1-Y))
         cost= -np.sum(logprobs)
         cost=float(np.squeeze(cost))/m
@@ -139,15 +139,24 @@ class NN:
     #Backward Propogation
     def backprop(self):
 	# application of the chain rule to find derivative of the loss function with respect to weights2 and weights1
+        #m is the number of entries
         m=self.input.shape[0]
+        #Getting the stored weight matrices
         W1=self.parameters["W1"]
         W2=self.parameters["W2"]
+        #Getting the stored bias matrices
         b1=self.parameters["b1"]
         b2=self.parameters["b2"]
+        #Getting the cached valeus
         A1=self.cache["A1"]
         A2=self.cache["A2"]
-        dZ2=A2-self.y.T#1X67
-        dW2=(1/m)*(np.dot(dZ2,A1.T))#1X4
+        '''
+        Using chain rule for differentiation
+        We find dW1, dW2, dB1, dB2
+        Then update W1, W2, b1, b2 using the derivative values and the learning rate
+        '''
+        dZ2=A2-self.y.T
+        dW2=(1/m)*(np.dot(dZ2,A1.T))
         db2 = (1/m)*np.sum(dZ2,axis=1,keepdims=True)
         dZ1 = np.dot(W2.T,dZ2)*(1-np.power(A1,2))#4X67
         dW1 = (1/m)*(np.dot(dZ1,self.input))
@@ -156,19 +165,40 @@ class NN:
         b1 = b1-(self.learning_rate*db1)
         W2 = W2-(self.learning_rate*dW2)
         b2 = b2-(self.learning_rate*db2)
+        '''
+        Store the updated weight and bias matrices for further forward and back prop cycles
+        '''
         self.parameters={"W1":W1,"W2":W2,"b1":b1,"b2":b2}
 
     def train(self,X,Y):
-        self.output=self.feedforward()
-        self.backprop()
-    def fit(self,X,Y):
-        for i in range(2500):#epochs 2000 epochs 2500,3500
-            self.train(X,Y)
         '''
         Function that trains the neural network by taking x_train and y_train samples as input
         '''
+        self.output=self.feedforward()
+        self.backprop()
+    def fit(self,X,Y):
+        '''
+        fit runs forward and back propogation as specified by number of epochs
+        In each epoch the train function is called.
+        Here 2500 epochs are used
+        '''
+        for i in range(2500):
+            self.train(X,Y)
+                
+        
 	
     def predict(self,X):
+        """
+        The predict function performs a simple feed forward of weights
+        and outputs yhat values 
+        yhat is a list of the predicted value for df X
+        """
+        
+        '''
+        The final W1, W2, b1 and b2 values are stored after all the epochs 
+        in the parameters dictionary. These final weight and bias matrices
+        used for making predictions given another piece of data
+        '''
         W1 = self.parameters["W1"]#4X9
         b1 = self.parameters["b1"]#4X1
         W2 = self.parameters["W2"]#1X4
@@ -178,11 +208,6 @@ class NN:
         Z2 = np.dot(W2,A1)+b2#1X67
         A2 = sigmoid(Z2)#1X67
         yhat=A2.T
-        """
-        The predict function performs a simple feed forward of weights
-        and outputs yhat values 
-        yhat is a list of the predicted value for df X
-        """
         return yhat
 
     def CM(y_test,y_test_obs):
@@ -227,16 +252,26 @@ class NN:
         print(f"Precision : {p}")
         print(f"Recall : {r}")
         print(f"F1 SCORE : {f1}")
+        
     def accuracy(y_test,y_test_obs):
+        '''
+        Accuracy is calculated as the (number of correct predictions)/ (total no. of predictions)
+        '''
         incorrect=0
         for i in range(len(y_test)):
             if y_test[i]!=y_test_obs[i]:
                 incorrect+=1
         return ((len(y_test)-incorrect)/len(y_test)*100)
-data=pd.read_csv("LBW_Dataset.csv") 
-data=clean(data).iloc[:,1:] #We can use pandas for cleaning
 
+#data is loaded from LBW_Dataset.csv file
+data=pd.read_csv("LBW_Dataset.csv") 
+'''
+We pass the dataframe to function called clean. 
+'''
+data=clean(data).iloc[:,1:] #We can use pandas for cleaning
+print(data.shape)
 X=data.iloc[:,:-1] #All columns except target column which will be Y i.e predicted
+print(X.shape)
 Y=data.iloc[:,-1] 
 
 X_train, X_test, Y_train, Y_test= train_test_split(X, Y, test_size=0.3, random_state=0)#random state 0,random state 1
