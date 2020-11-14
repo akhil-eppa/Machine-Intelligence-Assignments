@@ -11,6 +11,8 @@ Mention hyperparameters used and describe functionality in detail in this space
     Hiddent layer - 5
     Output layer - 1
 3. Dimensions of Weight Matrices:
+    Weight Matrix dimensions are (number of neruons in current layer) X (number of neurons in previous layer)
+    Z is WX + b
     W1 -> 5X9
     W2 -> 1X5
 4. Dimensions of Bias Matrices:
