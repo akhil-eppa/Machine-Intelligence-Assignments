@@ -5,7 +5,7 @@ TEAM MEMBER'S DETAILS:
    Team Member 1: Akhil Eppa
    SRN: PES1201802026
    
-   Team Member 2: Varun Y Tirthani
+   Team Member 2: Varun Tirthani
    SRN: PES1201802027
 
 • Our Neural Network predicts whether a child will suffer from Low Birth Weight(LBW) given certain features of the mother.
@@ -83,9 +83,9 @@ TEAM MEMBER'S DETAILS:
    The submitted zip file is named PESU-MI_2026_2027.zip
    This README file is part of the zip file. The zip file consists of a folder named PESU-MI_2026_2027 that consists of 2 folders- data and src.
    The data folder consists the preprocessed and standardized dataset which is named as LBW_Dataset_Cleaned.csv
-   The src folder consists of the python source code file and the README file. To run the python script make sure that the cleaned dataset and the 
-   source code file are in the same folder. For convenience we have placed the cleaned dataset in the src folder as well. This way the python script 
-   can be executed directly without any movement of files.
+   The src folder consists of the python source code file(PESU-MI_2026_2027.py) and the README file. To run the python script make sure that the 
+   cleaned dataset and the source code file are in the same folder. For convenience we have placed the cleaned dataset in the src folder as well. 
+   This way the python script can be executed directly without any movement of files.
  
 • OUTPUT Format:
    First the training set statistics are displayed followed by test set statistics. Under each dataset the parameters displayed are:
