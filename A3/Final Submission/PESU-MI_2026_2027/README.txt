@@ -89,7 +89,8 @@ TEAM MEMBER'S DETAILS:
    The data folder consists the preprocessed and standardized dataset which is named as LBW_Dataset_Cleaned.csv
    The src folder consists of the python source code file and the preprocessing source code. To run the python script make sure that the cleaned dataset and the 
    source code file are in the same folder. For convenience we have placed the cleaned dataset in the src folder as well. This way the python script 
-   can be executed directly without any movement of files.
+   can be executed directly without any movement of files. To run the prepocessing script make sure that the dirty dataset is present in the same folder
+   as that of the preprocessing script and the dirty dataset should be named as LBW_Dataset.csv
  
 • OUTPUT Format:
    First the training set statistics are displayed followed by test set statistics. Under each dataset the parameters displayed are:
