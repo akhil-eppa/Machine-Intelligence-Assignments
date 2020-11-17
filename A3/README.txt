@@ -1,3 +1,13 @@
+Machine Intelligence Assignment 3 - Implementation of a Neural Network from Scratch
+TEAM NAME: PESU-MI_2026_2027
+
+TEAM MEMBER'S DETAILS:
+   Team Member 1: Akhil Eppa
+   SRN: PES1201802026
+   
+   Team Member 2: Varun Y Tirthani
+   SRN: PES1201802027
+
 • Our Neural Network predicts whether a child will suffer from Low Birth Weight(LBW) given certain features of the mother.
    The Neural Network has a total of 3 layers, 1 input layer (with the same features as that given in the initial dataset), 1 hidden layer
    (consisting of 5 neurons) and 1 output layer which gives the final classification of LBW or not. Apart from this, our design also 
@@ -36,10 +46,30 @@
    correctly the neural network has managed to correctly predict the outcome for a given split of the original dataset. 
    
 • The hyperparameters that we have used include:
-   1) Number Of Neurons(Shape) Of Hidden Layer
-   2) Seed value for pseudo-random generation
-   3) Epoch count in the fit function
-   4) Learning Rate
+   1. Number of layers - 3(input, 1 hidden, output)
+   2. Number of neurons per layer:
+    Input layer - 9
+    Hidden layer - 5
+    Output layer - 1
+   3. Dimensions of Weight Matrices:
+    Weight Matrix dimensions are (number of neruons in current layer) X (number of neurons in previous layer)
+    Z is WX + b
+    here X is taken with features along rows and samples along columns.
+    W1 -> 5X9
+    W2 -> 1X5
+    NOTE: The weight matrices are multiplied by a scaling factor of 0.01 in the initialization step.
+   4. Dimensions of Bias Matrices:
+    Bias Matrix will be a column vector with the number of rows equal to the number of neurons in the current layer
+    Bias matrix is initialized as a column vector with all zeroes.
+    b1 -> 5X1
+    b2 -> 1X1
+   5. Activation functions :
+    hidden layer -> tanh
+    output layer -> sigmoid
+   6. Loss Function : Cross Entropy
+   7. Learning Rate : 0.05
+   8. Epochs : 2500
+   9. Train Test Split Used : 70/30
 
 • There are quite a few features that we have designed that make our network a cut above the rest. We have managed to scale down
    the non-categorical values in the original cleaned dataset such that there is not too much of variation as far as the numerical values
@@ -53,5 +83,20 @@
   obtained(Close to 90% for train and 86% for test comfortably crossing threshold of 85%) are a very
   strong testament to our constant experimentions.
 
-•  AKHIL PLEASE ADD STEPS TO EXECUTE PROGRAM
+• INSTRUCTIONS FOR EXECUTION:
+   The submitted zip file is named PESU-MI_2026_2027.zip
+   This README file is part of the zip file. The zip file consists of a folder named PESU-MI_2026_2027 that consists of 2 folders- data and src.
+   The data folder consists the preprocessed and standardized dataset which is named as LBW_Dataset_Cleaned.csv
+   The src folder consists of the python source code file and the README file. To run the python script make sure that the cleaned dataset and the 
+   source code file are in the same folder. For convenience we have placed the cleaned dataset in the src folder as well. This way the python script 
+   can be executed directly without any movement of files.
+ 
+• OUTPUT Format:
+   First the training set statistics are displayed followed by test set statistics. Under each dataset the parameters displayed are:
+   1. Confusion Matrix
+   2. Precision
+   3. Recall
+   4. F1 Score
+   5. Accuracy Obtained
    
+----------------------------------------------------------------THE END----------------------------------------------------------------------------------
