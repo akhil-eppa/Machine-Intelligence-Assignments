@@ -27,7 +27,7 @@ Mention hyperparameters used and describe functionality in detail in this space
 7. Learning Rate : 0.05
 8. Epochs : 2500
 9. Train Test Split Used : 70/30
-10. Training Accuracy obtained: 88.0579 %
+10. Training Accuracy obtained: 89.5522 %
 11. Testing Accuracy obtained: 86.2069 %
 '''
 import numpy as np
