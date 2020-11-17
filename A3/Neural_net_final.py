@@ -345,6 +345,6 @@ test_acc=NN.accuracy(Y_test,out)
 print("Testing Set Accuracy= ",test_acc)
 
 '''
-Training Accuracy obtained: 88.0579 %
+Training Accuracy obtained: 89.5529 %
 Testing Accuracy obtained: 86.2069 %
 '''
