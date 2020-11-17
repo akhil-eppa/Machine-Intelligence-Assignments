@@ -5,23 +5,27 @@ TEAM MEMBER'S DETAILS:
    Team Member 1: Akhil Eppa
    SRN: PES1201802026
    
-   Team Member 2: Varun Tirthani
+   Team Member 2: Varun Y Tirthani
    SRN: PES1201802027
 
 • Our Neural Network predicts whether a child will suffer from Low Birth Weight(LBW) given certain features of the mother.
    The Neural Network has a total of 3 layers, 1 input layer (with the same features as that given in the initial dataset), 1 hidden layer
    (consisting of 5 neurons) and 1 output layer which gives the final classification of LBW or not. Apart from this, our design also 
-   includes weight and bias matrices for each layer(other than input layer), implementation of 2 prominent activation functions(tanh       and sigmoid), cross-entropy loss function, forward and backward propagation. 
+   includes weight and bias matrices for each layer(other than input layer), implementation of 2 prominent activation functions(tanh and sigmoid), 
+   cross-entropy loss function, forward and backward propagation. 
    
 •  Firstly, we preprocess the dataset given. The initial stage consists of filling the empty rows with some values. Categorical column
-   empty values are filled with the mode of the column whereas non-categorical(numerical) column empty values are filled with the    mean of the column. 
-   The next stage of preprocessing consists of scaling all the non-categorical(numerical) column values such that they lie between 0    and 10 for enhancing the accuracy. 
+   empty values are filled with the mode of the column whereas non-categorical(numerical) column empty values are filled with the mean of the column. 
+   The next stage of preprocessing consists of scaling all the non-categorical(numerical) column values such that they lie between 0 and 10 for enhancing the accuracy. 
    
-•  Next, we split the cleaned dataset into the independent(X) and dependent(Y) sets. Further these are split into training and testing    sets in a 70%-30% ratio respectively, i.e    70% training set and 30% testing set. All the functions that are going to be discussed    henceforth are all under the class NN within the code.
+•  Next, we split the cleaned dataset into the independent(X) and dependent(Y) sets. Further these are split into training and testing sets in a 70%-30% ratio respectively, i.e    70% training set and 30% testing set. All the functions that are going to be discussed henceforth are all under the class NN within the code.
 
-• The initialisation function on an instance of this class ensures that it is supplied with necessary learning rate of 0.05, appropriate      weight and bias matrices for the various layers and creates the prediction matrix. The weight matrices are initialized to random     values, and then multiplied by a scaling factor of 0.01 while the bias is initialized as a column vector consisting of all zeroes. 
-  The init function also stores the weight and bias matrices in a global dictionary such that it can be accessed in the future by the   functions that need them. Once initialised, the fit function is called on the network with the training sets being passed as the   parameters. The fit function runs 2500 epochs on the training set. It inturn passes the parameters to the train  function which
-   conducts both forward and backward propagation.
+• The initialisation function on an instance of this class ensures that it is supplied with necessary learning rate of 0.05, appropriate weight and bias 
+   matrices for the various layers and creates the prediction matrix. The weight matrices are initialized to random values, and then multiplied by a scaling 
+   factor of 0.01 while the bias is initialized as a column vector consisting of all zeroes. The init function also stores the weight and bias matrices in a 
+   global dictionary such that it can be accessed in the future by the functions that need them. Once initialised, the fit function is called on the network
+   with the training sets being passed as the parameters. The fit function runs 2500 epochs on the training set. It inturn passes the parameters to the train 
+   function which conducts both forward and backward propagation.
    
 • In the forward propagation function, the weight and bias matrices are retrieved from the global dictionary that was initially stored in the initialisation function.
    The individual layer output calculation (hidden and output layer) is done here. In general, it is the activation function applied to the dot product of the weight with 
@@ -81,11 +85,11 @@ TEAM MEMBER'S DETAILS:
 
 • INSTRUCTIONS FOR EXECUTION:
    The submitted zip file is named PESU-MI_2026_2027.zip
-   This README file is part of the zip file. The zip file consists of a folder named PESU-MI_2026_2027 that consists of 2 folders- data and src.
+   This README file is part of the zip file. The zip file consists of a folder named PESU-MI_2026_2027 that consists of 2 folders- data and src and the README file.
    The data folder consists the preprocessed and standardized dataset which is named as LBW_Dataset_Cleaned.csv
-   The src folder consists of the python source code file(PESU-MI_2026_2027.py) and the README file. To run the python script make sure that the 
-   cleaned dataset and the source code file are in the same folder. For convenience we have placed the cleaned dataset in the src folder as well. 
-   This way the python script can be executed directly without any movement of files.
+   The src folder consists of the python source code file and the preprocessing source code. To run the python script make sure that the cleaned dataset and the 
+   source code file are in the same folder. For convenience we have placed the cleaned dataset in the src folder as well. This way the python script 
+   can be executed directly without any movement of files.
  
 • OUTPUT Format:
    First the training set statistics are displayed followed by test set statistics. Under each dataset the parameters displayed are:
