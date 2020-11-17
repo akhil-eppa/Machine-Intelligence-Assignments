@@ -205,9 +205,15 @@ class NN:
         '''
         for i in range(2500):
             self.train(X,Y)
+            '''
+            Uncomment below snippet of code to show progress of epochs.
+            In the assignment specification it is mentioned that only 
+            accuracy and parameters related to confusion matrix have to be displayed.
+            '''
+            '''
             if (i%100==0):
                 print("Epoch ",i)
-                        
+            '''            
 	
     def predict(self,X):
         """
@@ -286,11 +292,18 @@ class NN:
         return ((len(y_test)-incorrect)/len(y_test)*100)
 
 #data is loaded from LBW_Dataset.csv file
-data=pd.read_csv("LBW_Dataset.csv") 
+#Uncomment the below line if we read a dataset that is not yet preprocessed
+#data=pd.read_csv("LBW_Dataset.csv") 
 '''
-We pass the dataframe to function called clean. 
+We pass the dataframe to function called clean.
+Uncomment the next 2 lines of code only the dataset being read is unclean and needs 
+to be preprocessed before feeding to the model. In this case it is mentioned that the 
+program should read from the cleaned dataset, so the cleaned dataset is stored separately 
+after the preprocessing step and we read from that. 
 '''
-data=clean(data).iloc[:,:] #We can use pandas for cleaning
+#data=clean(data).iloc[:,:] #We can use pandas for cleaning
+#data.to_csv(r'LBW_Dataset_Cleaned.csv', index=False) 
+data=pd.read_csv("LBW_Dataset_Cleaned.csv")
 '''
 All columns except the last one is included in X
 '''
